@@ -50,7 +50,7 @@ const char pass[] = "CresposM812"; // TODO cambiar por la contraseña de la red 
 
 //Conexión a Mosquitto
 #define USER "al.cardona" // TODO Reemplace UsuarioMQTT por un usuario (no administrador) que haya creado en la configuración del bróker de MQTT.
-const char MQTT_HOST[] = "50.17.172.63"; // TODO Reemplace ip.maquina.mqtt por la IP del bróker MQTT que usted desplegó. Ej: 192.168.0.1
+const char MQTT_HOST[] = "54.145.104.58"; // TODO Reemplace ip.maquina.mqtt por la IP del bróker MQTT que usted desplegó. Ej: 192.168.0.1
 const int MQTT_PORT = 8082;
 const char MQTT_USER[] = USER;
 //Contraseña de MQTT
@@ -79,7 +79,7 @@ float temp;
 // Valor de la medición de la humedad
 float humi;
 // Valor del nivel de batería
-float batt;
+float batt = 20;
 
 /**
  * Conecta el dispositivo con el bróker MQTT usando
@@ -446,11 +446,16 @@ void measure() {
     }
   }
   if ((millis() - batteryMeasureTime) >= BATTERY_INTERVAL * 1000 ) {
-    Serial.println("\nNivel de batería: 20%");
+    Serial.println("\nNivel de batería: ");
+    Serial.print(batt);
     batteryMeasureTime = millis();
-    
-    batt = 20.0;
     sendBatteryData(batt);
+    if(batt > 0) {
+      batt = batt - 1.0;
+    }
+    else {
+      batt = 100.0;
+    }
   }
 }
 
