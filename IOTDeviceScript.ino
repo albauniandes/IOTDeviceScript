@@ -21,7 +21,7 @@
 // Intervalo en segundos de las mediciones de temperatura y humedad
 #define MEASURE_INTERVAL 2
 // Intervalo en segundos de las mediciones de nivel de batería
-#define BATTERY_INTERVAL 600
+#define BATTERY_INTERVAL 60
 // Duración aproximada en la pantalla de las alertas que se reciban
 #define ALERT_DURATION 60
 // Pin led de alarma para cargar batería
