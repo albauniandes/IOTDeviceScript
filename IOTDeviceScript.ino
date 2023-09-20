@@ -21,7 +21,7 @@
 // Intervalo en segundos de las mediciones de temperatura y humedad
 #define MEASURE_INTERVAL 2
 // Intervalo en segundos de las mediciones de nivel de batería
-#define BATTERY_INTERVAL 60
+#define BATTERY_INTERVAL 600
 // Duración aproximada en la pantalla de las alertas que se reciban
 #define ALERT_DURATION 60
 // Pin led de alarma para cargar batería
@@ -50,7 +50,7 @@ const char pass[] = "CresposM812"; // TODO cambiar por la contraseña de la red 
 
 //Conexión a Mosquitto
 #define USER "al.cardona" // TODO Reemplace UsuarioMQTT por un usuario (no administrador) que haya creado en la configuración del bróker de MQTT.
-const char MQTT_HOST[] = "54.145.104.58"; // TODO Reemplace ip.maquina.mqtt por la IP del bróker MQTT que usted desplegó. Ej: 192.168.0.1
+const char MQTT_HOST[] = "54.83.148.24"; // TODO Reemplace ip.maquina.mqtt por la IP del bróker MQTT que usted desplegó. Ej: 192.168.0.1
 const int MQTT_PORT = 8082;
 const char MQTT_USER[] = USER;
 //Contraseña de MQTT
@@ -79,7 +79,7 @@ float temp;
 // Valor de la medición de la humedad
 float humi;
 // Valor del nivel de batería
-float batt = 20;
+float batt = 24;
 
 /**
  * Conecta el dispositivo con el bróker MQTT usando
@@ -205,7 +205,7 @@ void startDisplay() {
 void displayNoSignal() {
   display.clearDisplay();
   
-  display.setTextSize(2);
+  display.setTextSize(1);
   display.setCursor(10, 10);
   display.println("No hay señal");
   
@@ -230,13 +230,13 @@ void displayHeader() {
  * Agrega los valores medidos de temperatura y humedad a la pantalla.
  */
 void displayMeasures() {
-  display.println("");
+  // display.println("");
   display.print("T: ");
   display.print(temp);
-  display.print("    ");
+  // display.print("    ");
   display.print("H: ");
   display.print(humi);
-  display.println("");
+  // display.println("");
 }
 
 /**
@@ -248,14 +248,14 @@ void displayMessage(String message) {
   display.setTextSize(1);
   display.println("\nMsg:");
   
-  display.setTextSize(2);
+  display.setTextSize(1);
   
   if (message.equals("OK")) {
     display.println("    " + message); 
   } else {
-    display.setTextSize(2);
-    display.println("");
-    display.println("");
+    display.setTextSize(1);
+    // display.println("");
+    // display.println("");
     display.println(message); 
   }
 }
@@ -446,8 +446,8 @@ void measure() {
     }
   }
   if ((millis() - batteryMeasureTime) >= BATTERY_INTERVAL * 1000 ) {
-    Serial.println("\nNivel de batería: ");
-    Serial.print(batt);
+    Serial.print("\nNivel de batería: ");
+    Serial.println(batt);
     batteryMeasureTime = millis();
     sendBatteryData(batt);
     if(batt > 0) {
